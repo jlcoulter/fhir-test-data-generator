@@ -1,10 +1,12 @@
 # fhir-test-data-generator
-A generator for producing FHIR resources based on data scenarios
+A generator for producing FHIR resources from either scenario based CSVs or bulk synthetic data with IG support.
 
 ## Prerequisites
 Python 3
 
-## Installation (in venv)
+## Installation
+
+### venv
 
 ```
 python3 -m venv venv
@@ -14,8 +16,73 @@ pip3 install -r requirements.txt
 
 ## Running
 
-Running the script will generate resources based on the type passed in.
-Generated resources will be in the `generated` directory
+Running the script will generate resources based on the selected IG, type, and mode.
+Generated resources will be written to the selected IG output directory.
 
-### Generating Patient resources
-`python3 generate.py --type patient`
+### Scenario mode
+
+Scenario mode reads CSV files from the selected IG input directory and writes FHIR resources files to `output/<ig-name>/csv/`.
+If `--type` is omitted, the generator scans the IG input directory and generates every supported resource that has a matching input CSV.
+
+Examples:
+
+`python3 generate.py --ig au-core-2.0.0 --mode scenario`
+
+`python3 generate.py --ig au-core-2.0.0 --type observation --mode scenario`
+
+### Bulk
+
+Bulk mode uses Faker and writes NDJSON to `output/<ig-name>/bulk/`. It uses bounded pools so overlap stays realistic without doing full referential integrity tracking.
+Bulk output is intentionally less strict than scenario mode: it aims for useful synthetic data rather than complete profile-level validity.
+If `--type` is omitted, bulk mode generates all supported resource types for the selected IG.
+
+Examples:
+
+`python3 generate.py --ig hcpd-26.0.0 --mode bulk --count 1000`
+
+`python3 generate.py --ig au-core-2.0.0 --type patient --mode bulk --count 1000 --seed 42`
+
+### CLI switches
+
+`--ig`
+Required. The versioned IG package to use, for example `au-core-2.0.0` or `hcpd-26.0.0`.
+
+`--mode`
+Required. The generation mode. Supported values: `scenario`, `bulk`.
+
+`--type`
+Optional. The resource type to generate. If omitted, scenario mode generates every supported type with a matching CSV in the IG input directory, and bulk mode generates every supported type for the selected IG.
+
+`--count`
+Number of resources to generate in bulk mode. Defaults to `100`.
+
+`--seed`
+Seed for deterministic random generation in bulk mode. Defaults to `42`.
+
+Input and output directories are not configurable via CLI. The generator enforces the profile layout under `IGs/`, `input/`, and `output/`.
+
+
+## Reference
+
+
+### Layout
+
+We use a profile-specific directory layout so IG assets, input data, and generated output stay aligned:
+
+```text
+IGs/<ig-name>/
+input/<ig-name>/
+output/<ig-name>/csv/
+output/<ig-name>/bulk/
+```
+
+For Health Connect in this repo, that means:
+
+```text
+IGs/hcpd-26.0.0/
+input/hcpd-26.0.0/
+output/hcpd-26.0.0/csv/
+output/hcpd-26.0.0/bulk/
+```
+
+The generator treats the versioned package directory as canonical and expects `IGs`, `input`, and `output` to use the same versioned name.
