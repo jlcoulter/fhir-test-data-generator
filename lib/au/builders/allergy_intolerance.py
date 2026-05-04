@@ -6,7 +6,7 @@ AU_CORE_ALLERGY_INTOLERANCE_PROFILE = "http://hl7.org.au/fhir/core/StructureDefi
 
 class AUCoreAllergyIntoleranceGenerator(BaseResourceGenerator):
     resource_type = "AllergyIntolerance"
-    scenario_file = "AllergyIntolerance.csv"
+    csv_file = "AllergyIntolerance.csv"
 
     def build_from_row(self, row):
         ctx = self.context

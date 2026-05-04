@@ -6,7 +6,7 @@ HEALTH_CONNECT_ORGANIZATION_PROFILE = "http://digitalhealth.gov.au/fhir/hcpd/Str
 
 class HealthConnectOrganizationGenerator(BaseResourceGenerator):
     resource_type = "Organization"
-    scenario_file = "Organization.data.csv"
+    csv_file = "Organization.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

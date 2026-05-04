@@ -6,7 +6,7 @@ AU_CORE_MEDICATION_STATEMENT_PROFILE = "http://hl7.org.au/fhir/core/StructureDef
 
 class AUCoreMedicationStatementGenerator(BaseResourceGenerator):
     resource_type = "MedicationStatement"
-    scenario_file = "MedicationStatement.csv"
+    csv_file = "MedicationStatement.csv"
 
     def build_from_row(self, row):
         ctx = self.context

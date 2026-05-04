@@ -3,7 +3,7 @@ from ..base import BaseResourceGenerator
 
 class AUCoreObservationGenerator(BaseResourceGenerator):
     resource_type = "Observation"
-    scenario_file = "Observation.csv"
+    csv_file = "Observation.csv"
 
     def build_from_row(self, row):
         ctx = self.context

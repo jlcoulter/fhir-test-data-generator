@@ -6,7 +6,7 @@ HEALTH_CONNECT_ENDPOINT_PROFILE = "http://digitalhealth.gov.au/fhir/hcpd/Structu
 
 class HealthConnectEndpointGenerator(BaseResourceGenerator):
     resource_type = "Endpoint"
-    scenario_file = "Endpoint.data.csv"
+    csv_file = "Endpoint.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

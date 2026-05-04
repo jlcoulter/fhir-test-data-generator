@@ -6,7 +6,7 @@ AU_CORE_ORGANIZATION_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/
 
 class AUCoreOrganizationGenerator(BaseResourceGenerator):
     resource_type = "Organization"
-    scenario_file = "Organization.csv"
+    csv_file = "Organization.csv"
 
     def build_from_row(self, row):
         ctx = self.context

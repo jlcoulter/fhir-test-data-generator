@@ -6,7 +6,7 @@ AU_CORE_PRACTITIONER_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/
 
 class AUCorePractitionerGenerator(BaseResourceGenerator):
     resource_type = "Practitioner"
-    scenario_file = "Practitioner.csv"
+    csv_file = "Practitioner.csv"
 
     def build_from_row(self, row):
         ctx = self.context

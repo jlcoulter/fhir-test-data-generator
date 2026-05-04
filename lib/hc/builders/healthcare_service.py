@@ -6,7 +6,7 @@ HEALTH_CONNECT_HEALTHCARE_SERVICE_PROFILE = "http://digitalhealth.gov.au/fhir/hc
 
 class HealthConnectHealthcareServiceGenerator(BaseResourceGenerator):
     resource_type = "HealthcareService"
-    scenario_file = "HealthcareService.data.csv"
+    csv_file = "HealthcareService.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

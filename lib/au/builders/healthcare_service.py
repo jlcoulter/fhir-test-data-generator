@@ -8,7 +8,7 @@ AU_CORE_HEALTHCARE_SERVICE_PROFILE = "http://hl7.org.au/fhir/core/StructureDefin
 
 class AUCoreHealthcareServiceGenerator(BaseResourceGenerator):
     resource_type = "HealthcareService"
-    scenario_file = "HealthcareService.csv"
+    csv_file = "HealthcareService.csv"
 
     def build_from_row(self, row):
         ctx = self.context

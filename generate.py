@@ -29,8 +29,7 @@ def default_input_dir(ig):
 
 
 def default_output_dir(ig, mode):
-    mode_directory = "csv" if mode == "scenario" else "bulk"
-    return os.path.join("output", ig_layout(ig)["package_dir"], mode_directory)
+    return os.path.join("output", ig_layout(ig)["package_dir"], mode)
 
 
 def ensure_ig_layout(ig):
@@ -69,16 +68,16 @@ def generators_for_args(args):
     generators = []
     for resource_type, builder_class in sorted(ig_builders.items()):
         generator = builder_class(args)
-        if args.mode == "scenario" and not generator.context.input_file_exists(generator.scenario_file):
+        if args.mode == "csv" and not generator.context.input_file_exists(generator.csv_file):
             continue
         generators.append(generator)
 
     if generators:
         return generators
 
-    if args.mode == "scenario":
+    if args.mode == "csv":
         raise FileNotFoundError(
-            f"No scenario input files matched known resource generators under '{args.input_dir}'"
+            f"No CSV input files matched known resource generators under '{args.input_dir}'"
         )
 
     return generators
@@ -99,7 +98,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate FHIR JSON resources.")
     parser.add_argument("--type", help="The resource type to generate. If omitted, generate all matching resources")
     parser.add_argument("--ig", required=True, help="The IG package to use")
-    parser.add_argument("--mode", required=True, choices=["scenario", "bulk"], help="Generation mode")
+    parser.add_argument("--mode", required=True, choices=["csv", "bulk"], help="Generation mode")
     parser.add_argument("--count", type=int, default=100, help="Number of resources to generate in bulk mode")
     parser.add_argument("--seed", type=int, default=42, help="Seed for deterministic bulk generation")
     args = parser.parse_args()

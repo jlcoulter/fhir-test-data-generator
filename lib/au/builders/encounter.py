@@ -8,7 +8,7 @@ AU_CORE_ENCOUNTER_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/au-
 
 class AUCoreEncounterGenerator(BaseResourceGenerator):
     resource_type = "Encounter"
-    scenario_file = "Encounter.csv"
+    csv_file = "Encounter.csv"
 
     def build_from_row(self, row):
         ctx = self.context

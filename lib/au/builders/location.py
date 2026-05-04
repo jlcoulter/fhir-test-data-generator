@@ -8,7 +8,7 @@ AU_CORE_LOCATION_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/au-c
 
 class AUCoreLocationGenerator(BaseResourceGenerator):
     resource_type = "Location"
-    scenario_file = "Location.csv"
+    csv_file = "Location.csv"
 
     def build_from_row(self, row):
         ctx = self.context

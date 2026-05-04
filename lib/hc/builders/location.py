@@ -6,7 +6,7 @@ HEALTH_CONNECT_LOCATION_PROFILE = "http://digitalhealth.gov.au/fhir/hcpd/Structu
 
 class HealthConnectLocationGenerator(BaseResourceGenerator):
     resource_type = "Location"
-    scenario_file = "Location.data.csv"
+    csv_file = "Location.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

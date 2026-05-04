@@ -126,16 +126,16 @@ class ProfileContext:
 
 class BaseResourceGenerator:
     resource_type = None
-    scenario_file = None
+    csv_file = None
 
     def __init__(self, args):
         self.args = args
         self.context = None  # set by profile subclass
 
     def run(self):
-        if self.args.mode == "scenario":
+        if self.args.mode == "csv":
             generated_count = 0
-            for row in self.context.csv_rows(self.scenario_file):
+            for row in self.context.csv_rows(self.csv_file):
                 if not self.context.row_has_data(row):
                     continue
                 resource = self.build_from_row(row)

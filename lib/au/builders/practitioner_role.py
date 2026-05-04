@@ -8,7 +8,7 @@ AU_CORE_PRACTITIONER_ROLE_PROFILE = "http://hl7.org.au/fhir/core/StructureDefini
 
 class AUCorePractitionerRoleGenerator(BaseResourceGenerator):
     resource_type = "PractitionerRole"
-    scenario_file = "PractitionerRole.csv"
+    csv_file = "PractitionerRole.csv"
 
     def build_from_row(self, row):
         ctx = self.context

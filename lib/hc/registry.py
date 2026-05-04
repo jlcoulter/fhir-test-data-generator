@@ -14,5 +14,5 @@ BUILDERS = {
     ("hcpd-26.0.0", "location"): HealthConnectLocationGenerator,
     ("hcpd-26.0.0", "endpoint"): HealthConnectEndpointGenerator,
     ("hcpd-26.0.0", "healthcareservice"): HealthConnectHealthcareServiceGenerator,
-    ("hcpd-26.0.0", "provenance"): HealthConnectProvenanceGenerator,
+    #("hcpd-26.0.0", "provenance"): HealthConnectProvenanceGenerator,
 }

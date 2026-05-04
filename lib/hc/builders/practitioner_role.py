@@ -6,7 +6,7 @@ HEALTH_CONNECT_PRACTITIONER_ROLE_PROFILE = "http://digitalhealth.gov.au/fhir/hcp
 
 class HealthConnectPractitionerRoleGenerator(BaseResourceGenerator):
     resource_type = "PractitionerRole"
-    scenario_file = "PractitionerRole.data.csv"
+    csv_file = "PractitionerRole.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

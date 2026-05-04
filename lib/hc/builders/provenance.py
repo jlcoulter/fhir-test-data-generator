@@ -6,7 +6,7 @@ HEALTH_CONNECT_PROVENANCE_PROFILE = "http://digitalhealth.gov.au/fhir/hcpd/Struc
 
 class HealthConnectProvenanceGenerator(BaseResourceGenerator):
     resource_type = "Provenance"
-    scenario_file = "Provenance.data.csv"
+    csv_file = "Provenance.data.csv"
 
     def build_from_row(self, row):
         ctx = self.context

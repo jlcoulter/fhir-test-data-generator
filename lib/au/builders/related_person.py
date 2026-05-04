@@ -6,7 +6,7 @@ AU_CORE_RELATED_PERSON_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinitio
 
 class AUCoreRelatedPersonGenerator(BaseResourceGenerator):
     resource_type = "RelatedPerson"
-    scenario_file = "RelatedPerson.csv"
+    csv_file = "RelatedPerson.csv"
 
     def build_from_row(self, row):
         ctx = self.context

@@ -6,7 +6,7 @@ AU_CORE_IMMUNIZATION_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/
 
 class AUCoreImmunizationGenerator(BaseResourceGenerator):
     resource_type = "Immunization"
-    scenario_file = "Immunization.csv"
+    csv_file = "Immunization.csv"
 
     def build_from_row(self, row):
         ctx = self.context

@@ -6,7 +6,7 @@ AU_CORE_PATIENT_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/au-co
 
 class AUCorePatientGenerator(BaseResourceGenerator):
     resource_type = "Patient"
-    scenario_file = "Patient.csv"
+    csv_file = "Patient.csv"
 
     def build_from_row(self, row):
         ctx = self.context

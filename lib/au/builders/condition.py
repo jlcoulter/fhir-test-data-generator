@@ -6,7 +6,7 @@ AU_CORE_CONDITION_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/au-
 
 class AUCoreConditionGenerator(BaseResourceGenerator):
     resource_type = "Condition"
-    scenario_file = "Condition.csv"
+    csv_file = "Condition.csv"
 
     def build_from_row(self, row):
         ctx = self.context

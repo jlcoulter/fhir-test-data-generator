@@ -6,7 +6,7 @@ AU_CORE_PROCEDURE_PROFILE = "http://hl7.org.au/fhir/core/StructureDefinition/au-
 
 class AUCoreProcedureGenerator(BaseResourceGenerator):
     resource_type = "Procedure"
-    scenario_file = "Procedure.csv"
+    csv_file = "Procedure.csv"
 
     def build_from_row(self, row):
         ctx = self.context

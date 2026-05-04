@@ -6,7 +6,7 @@ AU_CORE_MEDICATION_REQUEST_PROFILE = "http://hl7.org.au/fhir/core/StructureDefin
 
 class AUCoreMedicationRequestGenerator(BaseResourceGenerator):
     resource_type = "MedicationRequest"
-    scenario_file = "MedicationRequest.csv"
+    csv_file = "MedicationRequest.csv"
 
     def build_from_row(self, row):
         ctx = self.context
