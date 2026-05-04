@@ -1,5 +1,3 @@
-from math import ceil
-
 from ..base import BaseResourceGenerator
 
 
@@ -66,9 +64,10 @@ class HealthConnectHealthcareServiceGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        organization_pool = max(1, ceil(self.args.count / 10))
-        location_pool = max(1, ceil(self.args.count / 5))
-        endpoint_pool = max(1, ceil(self.args.count / 5))
+        count = self.args.count
+        organization_pool = count if count <= 10 else count // 10
+        location_pool = count if count <= 5 else count // 5
+        endpoint_pool = count if count <= 5 else count // 5
         organization_index = ((index - 1) % organization_pool) + 1
         location_index = ((index - 1) % location_pool) + 1
         endpoint_index = ((index - 1) % endpoint_pool) + 1

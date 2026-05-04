@@ -1,5 +1,3 @@
-from math import ceil
-
 from ..base import BaseResourceGenerator
 
 
@@ -42,19 +40,36 @@ class HealthConnectProvenanceGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        practitioner_pool = max(1, ceil(self.args.count / 2))
-        organization_pool = max(1, ceil(practitioner_pool / 10))
+        count = self.args.count
+        practitioner_pool = count if count <= 2 else count // 2
+        organization_pool = practitioner_pool if practitioner_pool <= 10 else practitioner_pool // 10
         practitioner_index = ((index - 1) % practitioner_pool) + 1
         organization_index = ((index - 1) % organization_pool) + 1
-        target_path = ctx.random.choice(["name[0].family", "telecom.where(system='phone').value"])
+
+        # target can be Practitioner or PractitionerRole
+        target_type = ctx.random.choice(["Practitioner", "PractitionerRole"])
+        if target_type == "Practitioner":
+            target_ref = ctx.practitioner_reference(practitioner_index)
+            target_path = ctx.random.choice(["name[0].family", "telecom.where(system='phone').value"])
+        else:
+            target_ref = f"PractitionerRole/{ctx.bulk_resource_id('practitionerrole', practitioner_index)}"
+            target_path = ctx.random.choice(["code[0].coding[0].display", "period.start"])
+
+        # agent.who can be Organization or Practitioner
+        agent_who_type = ctx.random.choice(["Organization", "Practitioner"])
+        if agent_who_type == "Organization":
+            agent_who_ref = ctx.organization_reference(organization_index)
+        else:
+            agent_who_ref = ctx.practitioner_reference(practitioner_index)
+
         provenance = {
             "resourceType": "Provenance",
             "id": ctx.bulk_resource_id("provenance", index),
             "meta": ctx.build_meta(HEALTH_CONNECT_PROVENANCE_PROFILE),
-            "target": [{"extension": [{"url": "http://hl7.org/fhir/StructureDefinition/targetPath", "valueString": target_path}], "reference": ctx.practitioner_reference(practitioner_index)}],
+            "target": [{"extension": [{"url": "http://hl7.org/fhir/StructureDefinition/targetPath", "valueString": target_path}], "reference": target_ref}],
             "recorded": ctx.faker.iso8601(),
             "activity": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation", "code": "UPDATE"}]},
-            "agent": [{"type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type", "code": "author"}]}, "role": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes", "code": "AMENDER"}]}], "who": {"reference": ctx.organization_reference(organization_index)}}],
-            "entity": [{"role": "source", "what": {"reference": ctx.practitioner_reference(practitioner_index)}}],
+            "agent": [{"type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type", "code": "author"}]}, "role": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes", "code": "AMENDER"}]}], "who": {"reference": agent_who_ref}}],
+            "entity": [{"role": "source", "what": {"reference": target_ref}}],
         }
         return ctx.clean(provenance)

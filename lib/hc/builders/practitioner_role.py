@@ -1,5 +1,3 @@
-from math import ceil
-
 from ..base import BaseResourceGenerator
 
 
@@ -115,10 +113,11 @@ class HealthConnectPractitionerRoleGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        practitioner_pool = max(1, ceil(self.args.count / 3))
-        organization_pool = max(1, ceil(practitioner_pool / 15))
+        count = self.args.count
+        practitioner_pool = count if count <= 3 else count // 3
+        organization_pool = practitioner_pool if practitioner_pool <= 15 else practitioner_pool // 15
         practitioner_index = ((index - 1) % practitioner_pool) + 1
-        organization_index = (((practitioner_index - 1) // 15) % organization_pool) + 1
+        organization_index = (((practitioner_index - 1) // max(1, practitioner_pool // max(1, organization_pool))) % organization_pool) + 1
         location_index = organization_index
         healthcare_service_index = organization_index
         role_gender = ctx.random.choice(["male", "female"])
