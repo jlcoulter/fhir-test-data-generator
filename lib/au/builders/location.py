@@ -1,4 +1,3 @@
-from math import ceil
 
 from ..base import BaseResourceGenerator
 
@@ -33,8 +32,9 @@ class AUCoreLocationGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        organization_pool = max(1, ceil(self.args.count / 5))
-        organization_index = ((index - 1) % organization_pool) + 1
+        count = self.args.count
+        organization_pool = count if count <= 5 else count // 5
+        organization_index = ctx.random.randint(1, organization_pool)
         location = {
             "resourceType": "Location",
             "id": ctx.bulk_resource_id("location", index),

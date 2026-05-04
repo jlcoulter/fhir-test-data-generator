@@ -88,7 +88,7 @@ class HealthConnectLocationGenerator(BaseResourceGenerator):
         ctx = self.context
         count = self.args.count
         organization_pool = count if count <= 10 else count // 10
-        organization_index = ((index - 1) % organization_pool) + 1
+        organization_index = ctx.random.randint(1, organization_pool)
         location_type = ctx.random.choice(
             [
                 ("MOBL", "Mobile Unit"),

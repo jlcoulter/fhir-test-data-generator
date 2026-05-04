@@ -58,7 +58,7 @@ class HealthConnectEndpointGenerator(BaseResourceGenerator):
         ctx = self.context
         count = self.args.count
         organization_pool = count if count <= 10 else count // 10
-        organization_index = ((index - 1) % organization_pool) + 1
+        organization_index = ctx.random.randint(1, organization_pool)
         endpoint = {
             "resourceType": "Endpoint",
             "id": ctx.bulk_resource_id("endpoint", index),

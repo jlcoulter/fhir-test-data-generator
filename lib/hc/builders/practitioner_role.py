@@ -115,9 +115,9 @@ class HealthConnectPractitionerRoleGenerator(BaseResourceGenerator):
         ctx = self.context
         count = self.args.count
         practitioner_pool = count if count <= 3 else count // 3
-        organization_pool = practitioner_pool if practitioner_pool <= 15 else practitioner_pool // 15
-        practitioner_index = ((index - 1) % practitioner_pool) + 1
-        organization_index = (((practitioner_index - 1) // max(1, practitioner_pool // max(1, organization_pool))) % organization_pool) + 1
+        organization_pool = count if count <= 15 else count // 15
+        practitioner_index = ctx.random.randint(1, practitioner_pool)
+        organization_index = ctx.random.randint(1, organization_pool)
         location_index = organization_index
         healthcare_service_index = organization_index
         role_gender = ctx.random.choice(["male", "female"])

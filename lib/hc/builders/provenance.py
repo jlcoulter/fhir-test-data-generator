@@ -44,7 +44,7 @@ class HealthConnectProvenanceGenerator(BaseResourceGenerator):
         practitioner_pool = count if count <= 2 else count // 2
         organization_pool = practitioner_pool if practitioner_pool <= 10 else practitioner_pool // 10
         practitioner_index = ((index - 1) % practitioner_pool) + 1
-        organization_index = ((index - 1) % organization_pool) + 1
+        organization_index = ctx.random.randint(1, organization_pool)
 
         # target can be Practitioner or PractitionerRole
         target_type = ctx.random.choice(["Practitioner", "PractitionerRole"])

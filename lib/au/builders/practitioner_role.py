@@ -1,4 +1,3 @@
-from math import ceil
 
 from ..base import BaseResourceGenerator
 
@@ -34,10 +33,11 @@ class AUCorePractitionerRoleGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        practitioner_pool = max(1, ceil(self.args.count / 3))
-        organization_pool = max(1, ceil(self.args.count / 4))
-        practitioner_index = ((index - 1) % practitioner_pool) + 1
-        organization_index = ((index - 1) % organization_pool) + 1
+        count = self.args.count
+        practitioner_pool = count if count <= 3 else count // 3
+        organization_pool = count if count <= 4 else count // 4
+        practitioner_index = ctx.random.randint(1, practitioner_pool)
+        organization_index = ctx.random.randint(1, organization_pool)
         practitioner_role = {
             "resourceType": "PractitionerRole",
             "id": ctx.bulk_resource_id("practitionerrole", index),

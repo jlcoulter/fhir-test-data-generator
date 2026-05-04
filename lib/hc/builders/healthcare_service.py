@@ -68,9 +68,9 @@ class HealthConnectHealthcareServiceGenerator(BaseResourceGenerator):
         organization_pool = count if count <= 10 else count // 10
         location_pool = count if count <= 5 else count // 5
         endpoint_pool = count if count <= 5 else count // 5
-        organization_index = ((index - 1) % organization_pool) + 1
-        location_index = ((index - 1) % location_pool) + 1
-        endpoint_index = ((index - 1) % endpoint_pool) + 1
+        organization_index = ctx.random.randint(1, organization_pool)
+        location_index = ctx.random.randint(1, location_pool)
+        endpoint_index = ctx.random.randint(1, endpoint_pool)
         service_type = ctx.random.choice(
             [
                 ("1584801000168109", "Geriatric evaluation and management service"),

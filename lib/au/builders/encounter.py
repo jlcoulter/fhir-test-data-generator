@@ -1,4 +1,3 @@
-from math import ceil
 
 from ..base import BaseResourceGenerator
 
@@ -48,12 +47,13 @@ class AUCoreEncounterGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
+        count = self.args.count
         patient_index = index
         practitioner_role_index = index
-        organization_pool = max(1, ceil(self.args.count / 5))
-        location_pool = max(1, ceil(self.args.count / 5))
-        organization_index = ((index - 1) % organization_pool) + 1
-        location_index = ((index - 1) % location_pool) + 1
+        organization_pool = count if count <= 5 else count // 5
+        location_pool = count if count <= 5 else count // 5
+        organization_index = ctx.random.randint(1, organization_pool)
+        location_index = ctx.random.randint(1, location_pool)
         encounter = {
             "resourceType": "Encounter",
             "id": ctx.bulk_resource_id("encounter", index),

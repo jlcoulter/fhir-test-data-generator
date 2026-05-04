@@ -1,4 +1,3 @@
-from math import ceil
 
 from ..base import BaseResourceGenerator
 
@@ -29,10 +28,11 @@ class AUCoreHealthcareServiceGenerator(BaseResourceGenerator):
 
     def build_bulk(self, index):
         ctx = self.context
-        organization_pool = max(1, ceil(self.args.count / 5))
-        location_pool = max(1, ceil(self.args.count / 5))
-        organization_index = ((index - 1) % organization_pool) + 1
-        location_index = ((index - 1) % location_pool) + 1
+        count = self.args.count
+        organization_pool = count if count <= 5 else count // 5
+        location_pool = count if count <= 5 else count // 5
+        organization_index = ctx.random.randint(1, organization_pool)
+        location_index = ctx.random.randint(1, location_pool)
         healthcare_service = {
             "resourceType": "HealthcareService",
             "id": ctx.bulk_resource_id("healthcareservice", index),
