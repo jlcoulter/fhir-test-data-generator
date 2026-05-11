@@ -32,6 +32,26 @@ class HealthConnectOrganizationGenerator(BaseResourceGenerator):
             },
             {"type": {"text": "ABN"}, "system": "http://hl7.org.au/id/abn", "value": ctx.csv_value(row, "identifier.abn.value")},
             {"type": {"text": "ACN"}, "system": "http://hl7.org.au/id/acn", "value": ctx.csv_value(row, "identifier.acn.value")},
+            {
+                "url": "http://digitalhealth.gov.au/fhir/cc/StructureDefinition/suppressed",
+                "extension": [
+                    {
+                        "url": "suppressedBy",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "http://digitalhealth.gov.au/fhir/cc/CodeSystem/suppressed-cs",
+                                    "code": ctx.csv_value(row, "suppressedBy.code"),
+                                },
+                                {
+                                    "url": "includeSelf",
+                                    "valueBoolean": ctx.csv_value(row, "suppressed.includeSelf")
+                                }
+                            ]
+                        },
+                    }
+                ],
+            },
         ]
 
         telecom = []
