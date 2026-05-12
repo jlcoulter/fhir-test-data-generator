@@ -113,8 +113,10 @@ class HealthConnectPractitionerGenerator(BaseResourceGenerator):
                 }
             )
 
-        practitioner["extension"].append(
-            {
+        suppressed_by_code = ctx.csv_value(row, "suppressedBy.code")
+        include_self = ctx.csv_value(row, "suppressed.includeSelf")
+        if suppressed_by_code != "":
+            suppressed_extension = {
                 "url": "http://digitalhealth.gov.au/fhir/cc/StructureDefinition/suppressed",
                 "extension": [
                     {
@@ -123,18 +125,21 @@ class HealthConnectPractitionerGenerator(BaseResourceGenerator):
                             "coding": [
                                 {
                                     "system": "http://digitalhealth.gov.au/fhir/cc/CodeSystem/suppressed-cs",
-                                    "code": ctx.csv_value(row, "suppressedBy.code"),
+                                    "code": suppressed_by_code,
                                 },
-                                {
-                                    "url": "includeSelf",
-                                    "valueBoolean": ctx.csv_value(row, "suppressed.includeSelf")
-                                }
                             ]
                         },
                     }
                 ],
             }
-        )
+            if include_self != "":
+                suppressed_extension["extension"][0]["valueCodeableConcept"]["coding"].append(
+                    {
+                        "url": "includeSelf",
+                        "valueBoolean": include_self,
+                    }
+                )
+            practitioner["extension"].append(suppressed_extension)
 
         return ctx.clean(practitioner)
 
