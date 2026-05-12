@@ -132,13 +132,6 @@ class HealthConnectPractitionerGenerator(BaseResourceGenerator):
                     }
                 ],
             }
-            if include_self != "":
-                suppressed_extension["extension"][0]["valueCodeableConcept"]["coding"].append(
-                    {
-                        "url": "includeSelf",
-                        "valueBoolean": include_self,
-                    }
-                )
             practitioner["extension"].append(suppressed_extension)
 
         return ctx.clean(practitioner)
